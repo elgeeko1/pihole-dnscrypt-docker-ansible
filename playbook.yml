@@ -1,0 +1,21 @@
+# Configure a DNS server to block advertisers and trackers
+---
+- hosts: all # TODO: replace with your pihole host
+  gather_facts: true
+  vars:
+    dnscrypt_proxy_port: 5053
+
+  roles:
+    - name: docker role
+      role: elgeeko1-docker-ansible
+
+    - name: dnscrypt-proxy role
+      role: elgeeko1-dnscrypt-proxy-ansible
+
+    - name: pihole role
+      role: elgeeko1-pihole-ansible
+      vars:
+        pihole_web_password: "pihole" # TODO: replace with something more secure!
+        # use docker0 addresses to access dnscrypt port,
+        # otherwise iptables will block
+        pihole_dns: "{{ ansible_docker0.ipv4.address }}#{{ dnscrypt_proxy_port }}"
