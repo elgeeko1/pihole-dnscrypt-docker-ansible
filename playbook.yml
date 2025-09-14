@@ -18,4 +18,4 @@
         pihole_web_password: "pihole" # TODO: replace with something more secure!
         # use docker0 addresses to access dnscrypt port,
         # otherwise iptables will block
-        pihole_dns: "{{ ansible_docker0.ipv4.address }}#{{ dnscrypt_proxy_port }}"
+        pihole_upstream_dns: "{{ ansible_docker0.ipv4.address }}#{{ dnscrypt_proxy_port }}"
